@@ -35,12 +35,12 @@ public class CommonConfiguration
 
         final JsonObject entry3 = new JsonObject();
         entry3.addProperty("desc:",
-          "The average tick time to stabilize the chunk view distance around. Setting it higher than 50ms is not advised, as after 50ms the TPS will go below 20. Default: 45ms, min: 10, max:100");
+          "The average tick time to stabilize the distances around. Setting it higher than 50ms is not advised, as after 50ms the TPS will go below 20. Default: 45ms, min: 10, max:100");
         entry3.addProperty("meanAvgTickTime", meanAvgTickTime);
         root.add("meanAvgTickTime", entry3);
 
         final JsonObject entry4 = new JsonObject();
-        entry4.addProperty("desc:", "The update frequency of average server tick time checks to update view distances.(In seconds) Default: 30, min:1, max:1000");
+        entry4.addProperty("desc:", "The change frequency of distances in seconds. Default: 30, min:1, max:1000");
         entry4.addProperty("viewDistanceUpdateRate", viewDistanceUpdateRate);
         root.add("viewDistanceUpdateRate", entry4);
 
@@ -65,7 +65,7 @@ public class CommonConfiguration
         root.add("logMessages", entry5);
 
         final JsonObject entry6 = new JsonObject();
-        entry6.addProperty("desc:", "Enable slow chunk unloading(~1minute) after load, helps with mods hot-loading chunks frequently. Default: true");
+        entry6.addProperty("desc:", "Enable slow chunk unloading(~1minute) after load, helps with lag caused by mods hot-loading chunks frequently. Default: true");
         entry6.addProperty("chunkunload", chunkunload);
         root.add("chunkunload", entry6);
 
