@@ -34,7 +34,7 @@ public class TickTimeHandler
 
         if (tickTimer % 20 == 0)
         {
-            meanTickSum += average(server.lastTickLengths) * 1.0E-6D;
+            meanTickSum += average(server.tickTimes) * 1.0E-6D;
             meanTickCount++;
 
             if (tickTimer >= serverTickTimerInterval)

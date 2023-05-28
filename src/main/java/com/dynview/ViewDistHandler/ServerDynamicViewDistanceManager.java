@@ -38,10 +38,10 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     {
         currentChunkViewDist = (minChunkViewDist + maxChunkViewDist) / 2;
         currentChunkUpdateDist = (minChunkUpdateDist + maxChunkUpdateDist) / 2;
-        server.getPlayerManager().setViewDistance(minChunkViewDist);
+        server.getPlayerList().setViewDistance(minChunkViewDist);
         if (DynView.getConfig().getCommonConfig().adjustSimulationDistance)
         {
-            server.getWorlds().forEach(level -> level.getChunkManager().applySimulationDistance(currentChunkUpdateDist));
+            server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
         }
         this.server = server;
     }
@@ -49,7 +49,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     @Override
     public void updateViewDistForMeanTick(final int meanTickTime)
     {
-        if (server.getPlayerManager().getPlayerList().isEmpty())
+        if (server.getPlayerList().getPlayers().isEmpty())
         {
             return;
         }
@@ -66,7 +66,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 {
                     DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
                 }
-                server.getPlayerManager().setViewDistance(currentChunkViewDist);
+                server.getPlayerList().setViewDistance(currentChunkViewDist);
                 return;
             }
 
@@ -78,7 +78,12 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 {
                     DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing simulation distance to: " + currentChunkUpdateDist);
                 }
-                server.getWorlds().forEach(level -> level.getChunkManager().applySimulationDistance(currentChunkUpdateDist));
+                server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+            }
+
+            if (!DynView.getConfig().getCommonConfig().adjustSimulationDistance)
+            {
+                reduceViewDistance = true;
             }
         }
 
@@ -94,7 +99,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 {
                     DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing chunk view distance to: " + currentChunkViewDist);
                 }
-                server.getPlayerManager().setViewDistance(currentChunkViewDist);
+                server.getPlayerList().setViewDistance(currentChunkViewDist);
                 return;
             }
 
@@ -106,7 +111,12 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 {
                     DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing simulation distance to: " + currentChunkUpdateDist);
                 }
-                server.getWorlds().forEach(level -> level.getChunkManager().applySimulationDistance(currentChunkUpdateDist));
+                server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+            }
+
+            if (!DynView.getConfig().getCommonConfig().adjustSimulationDistance)
+            {
+                increaseViewDistance = true;
             }
         }
     }
