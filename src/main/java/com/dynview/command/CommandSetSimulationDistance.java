@@ -1,13 +1,13 @@
-package com.dynamic_view.command;
+package com.dynview.command;
 
-import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
+import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 
-public class CommandSetViewDistance implements IMCOPCommand
+public class CommandSetSimulationDistance implements IMCOPCommand
 {
 
     private static final String RANGE_ARG = "chunkdistance";
@@ -26,15 +26,15 @@ public class CommandSetViewDistance implements IMCOPCommand
             return 0;
         }
 
-        ServerDynamicViewDistanceManager.getInstance().setCurrentChunkViewDist(IntegerArgumentType.getInteger(context, RANGE_ARG));
-        context.getSource().sendSuccess(Component.literal("Set view distance to:" + IntegerArgumentType.getInteger(context, RANGE_ARG)), true);
+        ServerDynamicViewDistanceManager.getInstance().setCurrentChunkUpdateDist(IntegerArgumentType.getInteger(context, RANGE_ARG));
+        context.getSource().sendSystemMessage(Component.literal("Set simulation distance to:" + IntegerArgumentType.getInteger(context, RANGE_ARG)));
         return 1;
     }
 
     @Override
     public String getName()
     {
-        return "setviewdistance";
+        return "setsimulationdistance";
     }
 
     @Override

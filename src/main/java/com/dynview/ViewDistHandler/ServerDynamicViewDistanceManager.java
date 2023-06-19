@@ -1,6 +1,6 @@
-package com.dynamic_view.ViewDistHandler;
+package com.dynview.ViewDistHandler;
 
-import com.dynamic_view.DynView;
+import com.dynview.DynView;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -35,11 +35,11 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     }
 
     @Override
-    public void initViewDist()
+    public void initViewDist(final MinecraftServer server)
     {
         currentChunkViewDist = (minChunkViewDist + maxChunkViewDist) / 2;
         currentChunkUpdateDist = (minChunkUpdateDist + maxChunkUpdateDist) / 2;
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(minChunkViewDist);
+        server.getPlayerList().setViewDistance(minChunkViewDist);
         if (DynView.getConfig().getCommonConfig().adjustSimulationDistance.get())
         {
             ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));

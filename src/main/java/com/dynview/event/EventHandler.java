@@ -1,8 +1,8 @@
-package com.dynamic_view.event;
+package com.dynview.event;
 
-import com.dynamic_view.Utils.TickTimeHandler;
-import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
-import com.dynamic_view.command.EntryPoint;
+import com.dynview.Utils.TickTimeHandler;
+import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
+import com.dynview.command.EntryPoint;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -23,14 +23,14 @@ public class EventHandler
         {
             return;
         }
-        TickTimeHandler.getInstance().onServerTick();
+        TickTimeHandler.getInstance().onServerTick(event.getServer());
     }
 
     @SubscribeEvent
     @OnlyIn(Dist.DEDICATED_SERVER)
     public static void onWorldLoad(final LevelEvent.Load event)
     {
-        ServerDynamicViewDistanceManager.getInstance().initViewDist();
+        ServerDynamicViewDistanceManager.getInstance().initViewDist(event.getLevel().getServer());
     }
 
     @SubscribeEvent

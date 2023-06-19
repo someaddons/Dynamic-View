@@ -1,4 +1,4 @@
-package com.dynamic_view.config;
+package com.dynview.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;

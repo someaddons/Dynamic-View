@@ -1,4 +1,4 @@
-package com.dynamic_view.command;
+package com.dynview.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;

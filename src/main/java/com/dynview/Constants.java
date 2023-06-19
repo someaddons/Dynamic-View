@@ -1,4 +1,4 @@
-package com.dynamic_view;
+package com.dynview;
 
 public abstract class Constants
 {

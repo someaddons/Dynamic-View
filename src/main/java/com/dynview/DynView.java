@@ -1,8 +1,8 @@
-package com.dynamic_view;
+package com.dynview;
 
-import com.dynamic_view.config.Configuration;
-import com.dynamic_view.event.EventHandler;
-import com.dynamic_view.event.ModBusEventHandler;
+import com.dynview.config.Configuration;
+import com.dynview.event.EventHandler;
+import com.dynview.event.ModBusEventHandler;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;

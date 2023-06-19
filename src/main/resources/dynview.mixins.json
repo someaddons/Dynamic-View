@@ -1,7 +1,7 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.dynamic_view.mixin",
+  "package": "com.dynview.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

@@ -1,8 +1,8 @@
-package com.dynamic_view.event;
+package com.dynview.event;
 
-import com.dynamic_view.DynView;
-import com.dynamic_view.Utils.TickTimeHandler;
-import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
+import com.dynview.DynView;
+import com.dynview.Utils.TickTimeHandler;
+import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.util.Comparator;
 
-import static com.dynamic_view.Constants.TICKS_A_SECOND;
+import static com.dynview.Constants.TICKS_A_SECOND;
 
 public class ModBusEventHandler
 {

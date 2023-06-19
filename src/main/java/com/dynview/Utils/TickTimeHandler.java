@@ -1,7 +1,7 @@
-package com.dynamic_view.Utils;
+package com.dynview.Utils;
 
-import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
+import net.minecraft.server.MinecraftServer;
 
 public class TickTimeHandler
 {
@@ -25,14 +25,16 @@ public class TickTimeHandler
 
     /**
      * Averages values each 20 ticks
+     *
+     * @param server
      */
-    public void onServerTick()
+    public void onServerTick(final MinecraftServer server)
     {
         tickTimer++;
 
         if (tickTimer % 20 == 0)
         {
-            meanTickSum += average(ServerLifecycleHooks.getCurrentServer().tickTimes) * 1.0E-6D;
+            meanTickSum += average(server.tickTimes) * 1.0E-6D;
             meanTickCount++;
 
             if (tickTimer >= serverTickTimerInterval)

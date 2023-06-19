@@ -1,11 +1,13 @@
-package com.dynamic_view.ViewDistHandler;
+package com.dynview.ViewDistHandler;
+
+import net.minecraft.server.MinecraftServer;
 
 /**
  * Interface for dynamic view distance managers.
  */
 public interface IDynamicViewDistanceManager
 {
-    void initViewDist();
+    void initViewDist(final MinecraftServer server);
 
     /**
      * Updates the current view distance based on server load.
