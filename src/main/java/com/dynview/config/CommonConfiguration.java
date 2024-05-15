@@ -61,7 +61,7 @@ public class CommonConfiguration implements ICommonConfig
         root.add("adjustSimulationDistance", entry7);
 
         final JsonObject entry5 = new JsonObject();
-        entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default = true");
+        entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default = false");
         entry5.addProperty("logMessages", logMessages);
         root.add("logMessages", entry5);
 
@@ -83,7 +83,6 @@ public class CommonConfiguration implements ICommonConfig
         meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
         viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
         logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
-        chunkunload = data.get("chunkunload").getAsJsonObject().get("chunkunload").getAsBoolean();
         adjustSimulationDistance = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
     }
 }
