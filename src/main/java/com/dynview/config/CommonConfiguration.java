@@ -1,9 +1,10 @@
 package com.dynview.config;
 
+import com.cupboard.config.ICommonConfig;
 import com.dynview.DynView;
 import com.google.gson.JsonObject;
 
-public class CommonConfiguration
+public class CommonConfiguration implements ICommonConfig
 {
     public int     minChunkViewDist         = 10;
     public int     maxChunkViewDist         = 10;

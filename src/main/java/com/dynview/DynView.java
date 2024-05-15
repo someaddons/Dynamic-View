@@ -1,6 +1,7 @@
 package com.dynview;
 
-import com.dynview.config.Configuration;
+import com.cupboard.config.CupboardConfig;
+import com.dynview.config.CommonConfiguration;
 import com.dynview.event.EventHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -17,18 +18,7 @@ public class DynView implements ModInitializer
     /**
      * The config instance.
      */
-    private static Configuration config;
-
-    public static Configuration getConfig()
-    {
-        if (config == null)
-        {
-            config = new Configuration();
-            config.load();
-        }
-
-        return config;
-    }
+    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<CommonConfiguration>("dynamicview", new CommonConfiguration());
 
     @Override
     public void onInitialize()

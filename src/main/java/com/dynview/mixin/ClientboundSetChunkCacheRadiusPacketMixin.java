@@ -21,6 +21,6 @@ public class ClientboundSetChunkCacheRadiusPacketMixin
     @Inject(method = "<init>(I)V", at = @At("RETURN"))
     private void onInit(final int i, final CallbackInfo ci)
     {
-        radius = DynView.getConfig().getCommonConfig().maxChunkViewDist;
+        radius = DynView.config.getCommonConfig().maxChunkViewDist;
     }
 }
