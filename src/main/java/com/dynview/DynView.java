@@ -1,13 +1,11 @@
 package com.dynview;
 
-import com.dynview.config.Configuration;
+import com.cupboard.config.CupboardConfig;
+import com.dynview.config.CommonConfiguration;
 import com.dynview.event.EventHandler;
-import com.dynview.event.ModBusEventHandler;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,26 +18,12 @@ public class DynView
     /**
      * The config instance.
      */
-    private static Configuration config;
+    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<>("dynamicview", new CommonConfiguration());
 
     public DynView()
     {
-        config = new Configuration();
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModBusEventHandler.class);
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
           () -> new IExtensionPoint.DisplayTest(() -> "ANY", (remote, isServer) -> true));
-    }
-
-    public static Configuration getConfig()
-    {
-        return config;
-    }
-
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("Zooming chunks initiated!");
     }
 }

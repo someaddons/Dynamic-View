@@ -1,54 +1,89 @@
 package com.dynview.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import com.cupboard.config.ICommonConfig;
+import com.dynview.DynView;
+import com.google.gson.JsonObject;
 
-public class CommonConfiguration
+public class CommonConfiguration implements ICommonConfig
 {
-    public final ForgeConfigSpec.IntValue     minChunkViewDist;
-    public final ForgeConfigSpec.IntValue     maxChunkViewDist;
-    public final ForgeConfigSpec.IntValue     minSimulationDist;
-    public final ForgeConfigSpec.IntValue     maxSimulationDist;
-    public final ForgeConfigSpec.BooleanValue adjustSimulationDistance;
-    public final ForgeConfigSpec.IntValue     meanAvgTickTime;
-    public final ForgeConfigSpec.IntValue     viewDistanceUpdateRate;
-    public final ForgeConfigSpec.BooleanValue logMessages;
-    public final ForgeConfigSpec.BooleanValue chunkunload;
+    public int     minChunkViewDist         = 10;
+    public int     maxChunkViewDist         = 10;
+    public int     meanAvgTickTime          = 45;
+    public int     viewDistanceUpdateRate   = 60;
+    public boolean logMessages              = false;
+    public boolean chunkunload              = true;
+    public boolean adjustSimulationDistance = true;
+    public int     minSimulationDist        = 4;
+    public int     maxSimulationDist        = 10;
 
-    protected CommonConfiguration(final ForgeConfigSpec.Builder builder)
+    public CommonConfiguration()
     {
-        builder.push("Dynamic Chunk View Distance Settings");
+    }
 
-        builder.comment("The minimum chunk view distance allowed to use. Default: 4");
-        minChunkViewDist = builder.defineInRange("minChunkViewDist", 5, 3, 200);
+    public JsonObject serialize()
+    {
+        final JsonObject root = new JsonObject();
 
-        builder.comment("The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 15");
-        maxChunkViewDist = builder.defineInRange("maxChunkViewDist", 15, 1, 200);
+        final JsonObject entry = new JsonObject();
+        entry.addProperty("desc:", "The minimum chunk view distance allowed to use. Default: 10, minimum 3, maximum 200");
+        entry.addProperty("minChunkViewDist", minChunkViewDist);
+        root.add("minChunkViewDist", entry);
 
-        builder.comment("The minimum simulation distance allowed to use. Default: 4");
-        minSimulationDist = builder.defineInRange("minSimulationDist", 4, 1, 200);
+        final JsonObject entry2 = new JsonObject();
+        entry2.addProperty("desc:", "The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 10, minimum 3, maximum 200");
+        entry2.addProperty("maxChunkViewDist", maxChunkViewDist);
+        root.add("maxChunkViewDist", entry2);
 
-        builder.comment("The maximum simulation distance allowed to use. Default: 10");
-        maxSimulationDist = builder.defineInRange("maxSimulationDist", 10, 1, 200);
+        final JsonObject entry3 = new JsonObject();
+        entry3.addProperty("desc:",
+          "The average tick time to stabilize the distances around. Setting it higher than 50ms is not advised, as after 50ms the TPS will go below 20. Default: 45ms, min: 10, max:100");
+        entry3.addProperty("meanAvgTickTime", meanAvgTickTime);
+        root.add("meanAvgTickTime", entry3);
 
-        builder.comment(
-          "The average tick time to stabilize the chunk view distance around. Setting it higher than 50ms is not advised, as after 50ms the TPS will go below 20. Default: 45ms");
-        meanAvgTickTime = builder.defineInRange("meanAvgTickTime", 45, 10, 100);
+        final JsonObject entry4 = new JsonObject();
+        entry4.addProperty("desc:", "The change frequency of distances in seconds. Default: 30, min:1, max:1000");
+        entry4.addProperty("viewDistanceUpdateRate", viewDistanceUpdateRate);
+        root.add("viewDistanceUpdateRate", entry4);
 
-        builder.comment("The update frequency of average server tick time checks to update view distances. Default: 30sec");
-        viewDistanceUpdateRate = builder.defineInRange("viewDistanceUpdateRate", 60, 1, 1000);
+        final JsonObject entry8 = new JsonObject();
+        entry8.addProperty("desc:", "The minimum simulation distance allowed to use. Default: 4, minimum 1, maximum 200");
+        entry8.addProperty("minSimulationDist", minSimulationDist);
+        root.add("minSimulationDist", entry8);
 
-        builder.comment("Whether to adjust the simulation distance aswell, default: true.");
-        adjustSimulationDistance = builder.define("adjustSimulationDistance", true);
+        final JsonObject entry9 = new JsonObject();
+        entry9.addProperty("desc:", "The maximum simulation distance allowed to use. Default: 10, minimum 1, maximum 200");
+        entry9.addProperty("maxSimulationDist", maxSimulationDist);
+        root.add("maxSimulationDist", entry9);
 
-        builder.comment("Whether to output log messages for actions done. This can be helpful to balance the other settings nicely.");
-        logMessages = builder.define("logMessages", true);
+        final JsonObject entry7 = new JsonObject();
+        entry7.addProperty("desc:", "Enables automatic simulation distance adjustment. Default: true");
+        entry7.addProperty("adjustSimulationDistance", adjustSimulationDistance);
+        root.add("adjustSimulationDistance", entry7);
 
-        // Escapes the current category level
-        builder.pop();
+        final JsonObject entry5 = new JsonObject();
+        entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default = true");
+        entry5.addProperty("logMessages", logMessages);
+        root.add("logMessages", entry5);
 
-        builder.push("Chunk slow unload settings");
+        return root;
+    }
 
-        builder.comment("Enable slow chunk unloading(~1minute) after load, helps with mods hot-loading chunks frequently. Default: true");
-        chunkunload = builder.define("chunkunload", true);
+    public void deserialize(JsonObject data)
+    {
+        if (data == null)
+        {
+            DynView.LOGGER.error("Config file was empty!");
+            return;
+        }
+
+        minChunkViewDist = Math.max(3, data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt());
+        minSimulationDist = Math.max(1, data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt());
+        maxSimulationDist = Math.max(1, data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt());
+        maxChunkViewDist = Math.max(3, data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt());
+        meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
+        viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
+        logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
+        chunkunload = data.get("chunkunload").getAsJsonObject().get("chunkunload").getAsBoolean();
+        adjustSimulationDistance = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
     }
 }
