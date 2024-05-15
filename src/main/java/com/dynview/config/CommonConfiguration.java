@@ -5,11 +5,11 @@ import com.google.gson.JsonObject;
 
 public class CommonConfiguration
 {
-    public int     minChunkViewDist         = 5;
-    public int     maxChunkViewDist         = 15;
+    public int     minChunkViewDist         = 10;
+    public int     maxChunkViewDist         = 10;
     public int     meanAvgTickTime          = 45;
-    public int     viewDistanceUpdateRate   = 30;
-    public boolean logMessages              = true;
+    public int     viewDistanceUpdateRate   = 60;
+    public boolean logMessages              = false;
     public boolean chunkunload              = true;
     public boolean adjustSimulationDistance = true;
     public int     minSimulationDist        = 4;
@@ -24,12 +24,12 @@ public class CommonConfiguration
         final JsonObject root = new JsonObject();
 
         final JsonObject entry = new JsonObject();
-        entry.addProperty("desc:", "The minimum chunk view distance allowed to use. Default: 5, minimum 3, maximum 200");
+        entry.addProperty("desc:", "The minimum chunk view distance allowed to use. Default: 10, minimum 3, maximum 200");
         entry.addProperty("minChunkViewDist", minChunkViewDist);
         root.add("minChunkViewDist", entry);
 
         final JsonObject entry2 = new JsonObject();
-        entry2.addProperty("desc:", "The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 15, minimum 1, maximum 200");
+        entry2.addProperty("desc:", "The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 10, minimum 3, maximum 200");
         entry2.addProperty("maxChunkViewDist", maxChunkViewDist);
         root.add("maxChunkViewDist", entry2);
 
@@ -64,11 +64,6 @@ public class CommonConfiguration
         entry5.addProperty("logMessages", logMessages);
         root.add("logMessages", entry5);
 
-        final JsonObject entry6 = new JsonObject();
-        entry6.addProperty("desc:", "Enable slow chunk unloading(~1minute) after load, helps with lag caused by mods hot-loading chunks frequently. Default: true");
-        entry6.addProperty("chunkunload", chunkunload);
-        root.add("chunkunload", entry6);
-
         return root;
     }
 
@@ -79,10 +74,11 @@ public class CommonConfiguration
             DynView.LOGGER.error("Config file was empty!");
             return;
         }
-        minChunkViewDist = data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt();
-        minSimulationDist = data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt();
-        maxSimulationDist = data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt();
-        maxChunkViewDist = data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt();
+
+        minChunkViewDist = Math.max(3, data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt());
+        minSimulationDist = Math.max(1, data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt());
+        maxSimulationDist = Math.max(1, data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt());
+        maxChunkViewDist = Math.max(3, data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt());
         meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
         viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
         logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
