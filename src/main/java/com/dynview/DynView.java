@@ -3,9 +3,10 @@ package com.dynview;
 import com.cupboard.config.CupboardConfig;
 import com.dynview.config.CommonConfiguration;
 import com.dynview.event.EventHandler;
-import net.minecraftforge.fml.IExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,10 +21,8 @@ public class DynView
      */
     public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<>("dynamicview", new CommonConfiguration());
 
-    public DynView()
+    public DynView(IEventBus modEventBus, ModContainer modContainer)
     {
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
-        ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class,
-          () -> new IExtensionPoint.DisplayTest(() -> "ANY", (remote, isServer) -> true));
+        NeoForge.EVENT_BUS.register(EventHandler.class);
     }
 }

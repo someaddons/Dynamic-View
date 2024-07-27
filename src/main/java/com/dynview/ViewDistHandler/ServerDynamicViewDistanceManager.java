@@ -3,7 +3,6 @@ package com.dynview.ViewDistHandler;
 import com.dynview.DynView;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.Random;
 
@@ -15,6 +14,8 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
 
     private int currentChunkViewDist   = 0;
     private int currentChunkUpdateDist = 0;
+
+    private MinecraftServer server = null;
 
     private ServerDynamicViewDistanceManager()
     {
@@ -32,20 +33,24 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     @Override
     public void initViewDist(final MinecraftServer server)
     {
+        if (this.server != null)
+        {
+            return;
+        }
+
         currentChunkViewDist = (DynView.config.getCommonConfig().minChunkViewDist + DynView.config.getCommonConfig().maxChunkViewDist) / 2;
         currentChunkUpdateDist = (DynView.config.getCommonConfig().minSimulationDist + DynView.config.getCommonConfig().maxSimulationDist) / 2;
         server.getPlayerList().setViewDistance(currentChunkUpdateDist);
         if (DynView.config.getCommonConfig().adjustSimulationDistance)
         {
-            ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+            server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
         }
+        this.server = server;
     }
 
     @Override
     public void updateViewDistForMeanTick(final int meanTickTime)
     {
-        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-
         if (server.getPlayerList().getPlayers().isEmpty())
         {
             return;
@@ -104,13 +109,13 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     public void setCurrentChunkViewDist(final int currentChunkViewDist)
     {
         this.currentChunkViewDist = Mth.clamp(currentChunkViewDist, 0, 200);
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(this.currentChunkViewDist);
+        server.getPlayerList().setViewDistance(this.currentChunkViewDist);
     }
 
     @Override
     public void setCurrentChunkUpdateDist(final int currentChunkUpdateDist)
     {
         this.currentChunkUpdateDist = Mth.clamp(currentChunkUpdateDist, 0, 200);
-        ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(this.currentChunkUpdateDist));
+        server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(this.currentChunkUpdateDist));
     }
 }

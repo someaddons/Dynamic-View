@@ -3,12 +3,10 @@ package com.dynview.event;
 import com.dynview.Utils.TickTimeHandler;
 import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
 import com.dynview.command.EntryPoint;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 /**
  * Handler to catch server tick events
@@ -16,21 +14,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class EventHandler
 {
     @SubscribeEvent
-    @OnlyIn(Dist.DEDICATED_SERVER)
-    public static void onDedicatedServerTick(final TickEvent.ServerTickEvent event)
+    public static void onDedicatedServerTick(final ServerTickEvent.Post event)
     {
-        if (event.phase == TickEvent.Phase.START)
-        {
-            return;
-        }
         TickTimeHandler.getInstance().onServerTick(event.getServer());
     }
 
     @SubscribeEvent
-    @OnlyIn(Dist.DEDICATED_SERVER)
-    public static void onWorldLoad(final LevelEvent.Load event)
+    public static void onServerStart(final ServerStartedEvent event)
     {
-        ServerDynamicViewDistanceManager.getInstance().initViewDist(event.getLevel().getServer());
+        ServerDynamicViewDistanceManager.getInstance().initViewDist(event.getServer());
     }
 
     @SubscribeEvent
