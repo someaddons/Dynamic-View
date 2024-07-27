@@ -11,7 +11,6 @@ public class CommonConfiguration implements ICommonConfig
     public int     meanAvgTickTime          = 45;
     public int     viewDistanceUpdateRate   = 60;
     public boolean logMessages              = false;
-    public boolean chunkunload              = true;
     public boolean adjustSimulationDistance = true;
     public int     minSimulationDist        = 4;
     public int     maxSimulationDist        = 10;
