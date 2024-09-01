@@ -14,7 +14,7 @@ public interface IDynamicViewDistanceManager
      *
      * @param meanTick mean tick time
      */
-    void updateViewDistForMeanTick(final int meanTick);
+    void updateViewDistForMeanTick(final int meanTick, final long tickBacklog);
 
     void setCurrentChunkViewDist(int currentChunkViewDist);
 
