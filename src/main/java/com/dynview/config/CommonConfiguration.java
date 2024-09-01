@@ -9,8 +9,8 @@ public class CommonConfiguration implements ICommonConfig
     public int     minChunkViewDist         = 10;
     public int     maxChunkViewDist         = 10;
     public int     meanAvgTickTime          = 45;
-    public int     maxTickBacklog          = 15;
-    public boolean     aggressiveScalebackEnabled          = true;
+    public int     maxTickBacklog          = 30;
+    public boolean     aggressiveScalebackEnabled          = false;
     public int     viewDistanceUpdateRate   = 60;
     public boolean logMessages              = false;
     public boolean chunkunload              = true;
@@ -44,13 +44,13 @@ public class CommonConfiguration implements ICommonConfig
 
         final JsonObject entry10 = new JsonObject();
         entry10.addProperty("desc:",
-                "Tick backlog to trigger aggressive render distance scaleback. Above 40ticks will only trigger on severe lag. Below 5 can cause issues. Default: 15ticks, min: 5, max:250");
+                "Tick backlog to trigger aggressive render distance scaleback. Above 40ticks will only trigger on severe lag. Below 5 can cause issues. Default: 30ticks, min: 5, max:250");
         entry10.addProperty("maxTickBacklog", maxTickBacklog);
         root.add("maxTickBacklog", entry10);
 
         final JsonObject entry11 = new JsonObject();
         entry11.addProperty("desc:",
-                "Aggressively scale back render distance, when maxTickBacklog is met. Default: true");
+                "Aggressively scale back render distance, when maxTickBacklog is met. Default: false");
         entry11.addProperty("aggressiveScaleback", aggressiveScalebackEnabled);
         root.add("aggressiveScaleback", entry11);
 
