@@ -42,7 +42,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     }
 
     @Override
-    public void updateViewDistForMeanTick(final int meanTickTime)
+    public void updateViewDistForMeanTick(final int meanTickTime, final long tickBacklog)
     {
         final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
@@ -51,14 +51,15 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
             return;
         }
 
-        if (meanTickTime - UPDATE_LEEWAY > DynView.config.getCommonConfig().meanAvgTickTime)
+        if ((meanTickTime - UPDATE_LEEWAY > DynView.config.getCommonConfig().meanAvgTickTime)
+        || (tickBacklog > DynView.config.getCommonConfig().maxTickBacklog))
         {
             if (currentChunkUpdateDist > DynView.config.getCommonConfig().minSimulationDist && rand.nextInt(10) != 0)
             {
                 currentChunkUpdateDist--;
                 if (DynView.config.getCommonConfig().logMessages)
                 {
-                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing simulation distance to: " + currentChunkUpdateDist);
+                    DynView.LOGGER.info("Mean tickTime: " + meanTickTime + "ms (Tick Backlog: "+tickBacklog+") decreasing simulation distance to: " + currentChunkUpdateDist);
                 }
                 server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
                 return;
@@ -69,13 +70,14 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 currentChunkViewDist--;
                 if (DynView.config.getCommonConfig().logMessages)
                 {
-                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+                    DynView.LOGGER.info("Mean tickTime:" + meanTickTime + "ms (Backlog:"+tickBacklog+") decreasing chunk view distance to: " + currentChunkViewDist);
                 }
                 server.getPlayerList().setViewDistance(currentChunkViewDist);
             }
         }
 
-        if (meanTickTime + UPDATE_LEEWAY < DynView.config.getCommonConfig().meanAvgTickTime)
+        if ((meanTickTime + UPDATE_LEEWAY < DynView.config.getCommonConfig().meanAvgTickTime)
+        && (tickBacklog < DynView.config.getCommonConfig().maxTickBacklog))
         {
             if (currentChunkUpdateDist < DynView.config.getCommonConfig().maxSimulationDist && rand.nextInt(10) != 0)
             {

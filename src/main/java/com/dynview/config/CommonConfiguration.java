@@ -9,6 +9,8 @@ public class CommonConfiguration implements ICommonConfig
     public int     minChunkViewDist         = 10;
     public int     maxChunkViewDist         = 10;
     public int     meanAvgTickTime          = 45;
+    public int     maxTickBacklog          = 15;
+    public boolean     aggressiveScalebackEnabled          = true;
     public int     viewDistanceUpdateRate   = 60;
     public boolean logMessages              = false;
     public boolean chunkunload              = true;
@@ -40,6 +42,18 @@ public class CommonConfiguration implements ICommonConfig
         entry3.addProperty("meanAvgTickTime", meanAvgTickTime);
         root.add("meanAvgTickTime", entry3);
 
+        final JsonObject entry10 = new JsonObject();
+        entry10.addProperty("desc:",
+                "Tick backlog to trigger aggressive render distance scaleback. Above 40ticks will only trigger on severe lag. Below 5 can cause issues. Default: 15ticks, min: 5, max:250");
+        entry10.addProperty("maxTickBacklog", maxTickBacklog);
+        root.add("maxTickBacklog", entry10);
+
+        final JsonObject entry11 = new JsonObject();
+        entry11.addProperty("desc:",
+                "Aggressively scale back render distance, when maxTickBacklog is met. Default: true");
+        entry11.addProperty("aggressiveScaleback", aggressiveScalebackEnabled);
+        root.add("aggressiveScaleback", entry11);
+
         final JsonObject entry4 = new JsonObject();
         entry4.addProperty("desc:", "The change frequency of distances in seconds. Default: 30, min:1, max:1000");
         entry4.addProperty("viewDistanceUpdateRate", viewDistanceUpdateRate);
@@ -61,7 +75,7 @@ public class CommonConfiguration implements ICommonConfig
         root.add("adjustSimulationDistance", entry7);
 
         final JsonObject entry5 = new JsonObject();
-        entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default = false");
+        entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default: false");
         entry5.addProperty("logMessages", logMessages);
         root.add("logMessages", entry5);
 
@@ -81,6 +95,8 @@ public class CommonConfiguration implements ICommonConfig
         maxSimulationDist = Math.max(1, data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt());
         maxChunkViewDist = Math.max(3, data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt());
         meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
+        maxTickBacklog = data.get("maxTickBacklog").getAsJsonObject().get("maxTickBacklog").getAsInt();
+        aggressiveScalebackEnabled = data.get("aggressiveScaleback").getAsJsonObject().get("aggressiveScaleback").getAsBoolean();
         viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
         logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
         adjustSimulationDistance = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
