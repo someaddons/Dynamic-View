@@ -70,7 +70,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 currentChunkViewDist--;
                 if (DynView.config.getCommonConfig().logMessages)
                 {
-                    DynView.LOGGER.info("Mean tickTime:" + meanTickTime + "ms (Backlog:"+tickBacklog+") decreasing chunk view distance to: " + currentChunkViewDist);
+                    DynView.LOGGER.info("Mean tickTime: " + meanTickTime + "ms (Backlog:"+tickBacklog+") decreasing chunk view distance to: " + currentChunkViewDist);
                 }
                 server.getPlayerList().setViewDistance(currentChunkViewDist);
             }
