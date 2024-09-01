@@ -77,7 +77,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
         }
 
         if ((meanTickTime + UPDATE_LEEWAY < DynView.config.getCommonConfig().meanAvgTickTime)
-        && (tickBacklog < DynView.config.getCommonConfig().maxTickBacklog))
+        && (tickBacklog < DynView.config.getCommonConfig().maxTickBacklog/10)) // if tick backlog is 30, then should be below 3.
         {
             if (currentChunkUpdateDist < DynView.config.getCommonConfig().maxSimulationDist && rand.nextInt(10) != 0)
             {
