@@ -44,7 +44,10 @@ public class TickTimeHandler
                 meanTickCount = 0;
                 meanTickSum = 0;
 
-                ServerDynamicViewDistanceManager.getInstance().updateViewDistForMeanTick(serverMeanTickTime);
+                if (server.isDedicatedServer())
+                {
+                    ServerDynamicViewDistanceManager.getInstance().updateViewDistForMeanTick(serverMeanTickTime);
+                }
             }
         }
     }

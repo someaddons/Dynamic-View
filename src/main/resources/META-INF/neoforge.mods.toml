@@ -15,7 +15,7 @@ license = "GPLv3"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 # The modid of the mod
-modId="dynview" #mandatory
+modId = "dynamicviewdist" #mandatory
 version = "${mod_version}" #mandatory
  # A display name for the mod
 displayName="Dynamic view distance" #mandatory
@@ -33,18 +33,18 @@ authors = "Someaddon" #optional
 description='''
 Dynamic view distance mod which dynamically changes chunk view distance to fit server load
 '''
-[[dependencies.dynview]]
+[[dependencies.dynamicviewdist]]
 modId = "minecraft"
 mandatory = true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "[1.21,1.30)"
+versionRange = "[26,27)"
     ordering="NONE"
 side = "BOTH"
-[[dependencies.dynview]]
+[[dependencies.dynamicviewdist]]
 modId = "cupboard"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-versionRange = "[1.21-1.4,)"
+versionRange = "[3.5,)"
     ordering="NONE"
 side = "BOTH"
 [[mixins]]

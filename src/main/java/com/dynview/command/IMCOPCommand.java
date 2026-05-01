@@ -2,7 +2,7 @@ package com.dynview.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
@@ -17,7 +17,7 @@ public interface IMCOPCommand extends IMCCommand
     @Override
     default boolean checkPreCondition(final CommandContext<CommandSourceStack> context)
     {
-        if (context.getSource().hasPermission(OP_PERM_LEVEL))
+        if (context.getSource().permissions().hasPermission(Permissions.COMMANDS_ADMIN))
         {
             return true;
         }
@@ -28,11 +28,6 @@ public interface IMCOPCommand extends IMCCommand
             return false;
         }
 
-        if (!IMCCommand.isPlayerOped((Player) sender))
-        {
-            context.getSource().sendFailure(Component.literal("You need to be OP for this command."));
-            return false;
-        }
         return true;
     }
 }

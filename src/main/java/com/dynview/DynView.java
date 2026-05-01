@@ -19,7 +19,7 @@ public class DynView
     /**
      * The config instance.
      */
-    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<>("dynamicview", new CommonConfiguration());
+    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<>(Constants.MOD_ID, new CommonConfiguration());
 
     public DynView(IEventBus modEventBus, ModContainer modContainer)
     {
