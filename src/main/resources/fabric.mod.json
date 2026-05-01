@@ -23,14 +23,14 @@
     ]
   },
   "mixins": [
-    "dynview.mixins.json"
+    "dynamicviewdist.mixins.json"
   ],
-  "accessWidener": "dynview.accessWidener",
+  "accessWidener": "dynamicviewdist.accessWidener",
   "depends": {
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
+    "fabric-api": "*",
     "cupboard": "*",
-    "minecraft": ">=1.20.2"
+    "minecraft": ">=26"
   },
   "suggests": {
     "another-mod": "*"

@@ -13,12 +13,12 @@ import org.apache.logging.log4j.Logger;
 public class DynView implements ModInitializer
 {
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final String MODID  = "dynview";
+    public static final String MODID = "dynamicviewdist";
 
     /**
      * The config instance.
      */
-    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<CommonConfiguration>("dynamicview", new CommonConfiguration());
+    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<CommonConfiguration>("dynamicviewdist", new CommonConfiguration());
 
     @Override
     public void onInitialize()
