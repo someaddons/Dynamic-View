@@ -51,7 +51,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
 
         if (meanTickTime - UPDATE_LEEWAY > DynView.config.getCommonConfig().meanAvgTickTime)
         {
-            if (currentChunkUpdateDist > DynView.config.getCommonConfig().minSimulationDist && rand.nextInt(10) != 0)
+            if (DynView.config.getCommonConfig().adjustSimulationDistance && currentChunkUpdateDist > DynView.config.getCommonConfig().minSimulationDist && rand.nextInt(10) != 0)
             {
                 currentChunkUpdateDist--;
                 if (DynView.config.getCommonConfig().logMessages)

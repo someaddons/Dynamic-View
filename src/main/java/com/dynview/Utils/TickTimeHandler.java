@@ -1,5 +1,6 @@
 package com.dynview.Utils;
 
+import com.dynview.DynView;
 import com.dynview.ViewDistHandler.ServerDynamicViewDistanceManager;
 import net.minecraft.server.MinecraftServer;
 
@@ -9,7 +10,7 @@ public class TickTimeHandler
     private int meanTickCount = 1;
     private int tickTimer     = 0;
 
-    public static int serverTickTimerInterval = 100;
+    public static int serverTickTimerInterval = DynView.config.getCommonConfig().viewDistanceUpdateRate;
 
     private static TickTimeHandler instance = new TickTimeHandler();
 

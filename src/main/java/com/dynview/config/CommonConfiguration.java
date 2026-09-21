@@ -79,6 +79,7 @@ public class CommonConfiguration implements ICommonConfig
         minSimulationDist = Math.max(1, data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt());
         maxSimulationDist = Math.max(1, data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt());
         maxChunkViewDist = Math.max(3, data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt());
+        maxChunkViewDist = Math.max(maxChunkViewDist, maxSimulationDist);
         meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
         viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
         logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
