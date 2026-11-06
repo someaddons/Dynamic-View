@@ -18,7 +18,7 @@ public class DynView implements ModInitializer
     /**
      * The config instance.
      */
-    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<CommonConfiguration>("dynamicviewdist", new CommonConfiguration());
+    public static final CupboardConfig<CommonConfiguration> config = new CupboardConfig<CommonConfiguration>(MODID, new CommonConfiguration());
 
     @Override
     public void onInitialize()
